@@ -1,7 +1,9 @@
 import chess
 import pytest
 
+from fow.api import check_observation
 from fow.game import Game, legal_moves
+from fow.bots import RandomBot
 from fow.elo import fit, size_adjusted
 from fow.memory import Memory
 
@@ -84,3 +86,16 @@ def test_elo_fit_orders_players():
 def test_size_adjustment():
     assert size_adjusted(1000, 250_000_000, 50) == 1000
     assert abs(size_adjusted(1000, 1_000, 50) - (1000 + 50 * 7.965784284662087)) < 1e-6
+
+
+def test_observations_follow_the_api():
+    import random
+    for seed in range(20):
+        g = Game()
+        bots = {"white": RandomBot(), "black": RandomBot()}
+        bots["white"].reset("white", seed)
+        bots["black"].reset("black", seed + 1)
+        while not g.over:
+            obs = g.observation()
+            assert check_observation(obs) == [], check_observation(obs)
+            g.play(bots[obs["color"]].act(obs))

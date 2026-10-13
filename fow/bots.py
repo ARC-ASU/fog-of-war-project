@@ -172,7 +172,7 @@ def make_bot(spec: str) -> Bot:
 
 # Ratings of the reference bots. The scale is fixed by bot:random = 0 and bot:greedy = 1000; the
 # others are provisional, measured by the course staff with this code (600 games, round robin,
-# 95% intervals about +-90), and will be re-measured on the ladder.
+# 95% intervals about +-90), and will be re-measured in the tournaments.
 REFERENCE_RATINGS: dict[str, float] = {
     "bot:random": 0.0,
     "bot:naive-sf": 920.0,

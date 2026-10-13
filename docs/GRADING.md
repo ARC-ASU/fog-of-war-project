@@ -2,12 +2,12 @@
 
 The project is individual and worth **20 points** of your course grade. Points come from the
 quality of your work as documented in your repository, journal, report and presentation. Your
-ladder rank affects only the extra credit below.
+tournament rank affects only the extra credit below.
 
 | Component | Points | Due |
 |---|---:|---|
-| Proposal | 2 | Fri Oct 30, 11:59 PM |
-| Checkpoint | 2 | Tue Nov 17, 11:59 PM |
+| Proposal | 2 | Fri Oct 23, 11:59 PM |
+| Pre-tournament entry | 2 | Tue Nov 17, 11:59 PM |
 | Implementation and reproducibility | 4 | final |
 | Experimental design and evaluation | 4 | final |
 | Results analysis and limitations | 4 | final |
@@ -28,11 +28,15 @@ Submit a link to your repository (with staff access) and a PDF of at most 2 page
 - **A pushed history:** your commits so far are pushed, following
   [the commit rules](POLICIES.md#your-repository-and-commit-history).
 
-## Checkpoint (2 points)
+## Pre-tournament entry (2 points)
 
-- **A valid ladder entry:** at least one `ladder-` release that passes `fow.validate`.
-- **One completed experiment:** at least one idea from your plan tested, with the result in
-  your journal, including what you will change next.
+The pre-tournament is your first entry playing against everyone else's.
+
+- **A valid entry:** an `entry-` release by the deadline that passes `fow.validate` and plays
+  its pre-tournament games without forfeits. **Its strength does not matter.** An early,
+  weak model earns the full points.
+- **Work in progress:** your journal and pushed commit history show the work since the
+  proposal, including at least one completed experiment and what you will change next.
 
 ## Implementation and reproducibility (4 points)
 

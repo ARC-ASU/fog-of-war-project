@@ -1,4 +1,4 @@
-"""Check an agent directory the way the ladder will before it plays any rated game.
+"""Check an agent directory the way the tournaments will before it plays any rated game.
 
     python -m fow.validate submission [--device cuda] [--games 10]
 
@@ -110,7 +110,7 @@ def main(argv=None):
                  "with PyTorch in the thread that calls act() (see docs/COMPETITION.md)")
     times = sorted(t for r, side in mine for t in r.seconds[side])
     if times:
-        print("  time on this machine (for information; the ladder limits FLOPs, not time):")
+        print("  time on this machine (for information; tournaments limit FLOPs, not time):")
         print(f"  per move: mean {statistics.mean(times) * 1000:.1f} ms, "
               f"95th percentile {times[int(0.95 * (len(times) - 1))] * 1000:.1f} ms, max {times[-1] * 1000:.1f} ms")
     agent.close()

@@ -59,7 +59,7 @@ step at a time.
   for example `Add value head to policy net to train on game outcomes`. Don't mix unrelated
   changes, and don't sit on a week of work and commit it as one dump.
 - **Push as you go.** Push at the end of every working session. At the least, there must be
-  pushed commits in **every week** from the proposal (Oct 30) to the model freeze (Dec 4).
+  pushed commits in **every week** from the proposal (Oct 23) to the model freeze (Dec 4).
   A history that is empty and then appears all at once near a deadline will be questioned.
 - **Never rewrite pushed history.** No force-pushes, and no squashing or rebasing commits you
   have already pushed. Fix mistakes with new commits.
@@ -78,8 +78,7 @@ step at a time.
 
 You **may** use AI assistants and coding agents to write code, debug, and explore ideas. It is
 a normal part of the work now, and learning to direct these tools well is part of the point.
-[RESOURCES.md](RESOURCES.md#ai-assistants) lists the free tools available to everyone in the
-course, including ASU's tools and the course's Qwen3.8-27B endpoint.
+[RESOURCES.md](RESOURCES.md#ai-assistants) lists the free tools ASU provides to every student.
 
 You **must**:
 
@@ -104,5 +103,5 @@ Hiding AI use, or submitting work you cannot explain, is an academic integrity v
 - **Top-10 walkthrough:** before extra credit is awarded, each top-10 student gives a live
   10–15 minute walkthrough: one design decision, one failed experiment, and questions about
   their own code.
-- **Violations:** entries that break these rules are removed from the ladder and handled under
+- **Violations:** entries that break these rules are removed from the tournaments and handled under
   the ASU academic integrity policy.

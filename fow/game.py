@@ -15,6 +15,8 @@ from __future__ import annotations
 
 import chess
 
+from .api import API_VERSION
+
 MAX_PLIES = 400
 QUIET_PLIES = 100
 
@@ -78,6 +80,8 @@ class Game:
         rank_bb = chess.BB_RANK_1 if c == chess.WHITE else chess.BB_RANK_8
         rights = b.castling_rights & rank_bb
         return {
+            "api_version": API_VERSION,
+            "variant": "fow",
             "color": self.turn,
             "ply": b.ply(),
             "own": own,

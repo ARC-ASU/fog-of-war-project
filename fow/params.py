@@ -1,4 +1,4 @@
-"""Count model parameters the way the ladder does: every tensor element stored in every
+"""Count model parameters the way the tournaments do: every tensor element stored in every
 *.safetensors file inside the agent directory (read from the file headers, no framework needed)."""
 from __future__ import annotations
 

@@ -7,10 +7,10 @@ Examples
     # every player against every other player
     python -m fow.arena submission agents/baseline bot:greedy --mode round-robin --games 20
 
-    # on a GPU node, 4 games at a time, with the ladder's per-move limits
+    # on a GPU node, 4 games at a time, with the tournament per-move limits
     python -m fow.arena submission bot:guess-sf-4x500 --device cuda --workers 4 --official
 
-Ratings are printed on the ladder's scale: reference bots keep their published ratings
+Ratings are printed on the tournament scale: reference bots keep their published ratings
 (fow/bots.py REFERENCE_RATINGS); everyone else is estimated from the games played here.
 """
 from __future__ import annotations
@@ -99,8 +99,8 @@ def main(argv=None):
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--max-flops", type=float, default=None,
-                    help="per-move FLOP budget; the ladder uses fow.limits.MAX_MOVE_FLOPS")
-    ap.add_argument("--official", action="store_true", help="use the ladder's limits (fow/limits.py)")
+                    help="per-move FLOP budget; tournaments use fow.limits.MAX_MOVE_FLOPS")
+    ap.add_argument("--official", action="store_true", help="use the tournament limits (fow/limits.py)")
     ap.add_argument("--move-cap", type=float, default=None, help="wall-clock seconds per move (hang guard)")
     ap.add_argument("--clock", type=float, default=None, help="optional chess clock: seconds per side per game")
     ap.add_argument("--increment", type=float, default=0.0)

@@ -1,4 +1,4 @@
-"""The ladder's limits in one place (also documented in docs/COMPETITION.md)."""
+"""The tournament limits in one place (also documented in docs/COMPETITION.md)."""
 
 MAX_PARAMS = 250_000_000          # total parameters in all .safetensors files of a submission
 MAX_MOVE_FLOPS = 1_000_000_000_000  # 1e12 PyTorch FLOPs per move, counted while act() runs

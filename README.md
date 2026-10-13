@@ -1,10 +1,10 @@
 # Fog-of-War Chess: CSE 598 Final Project (Fall 2026)
 
 > **Your task:** train a small neural network that plays chess when it can't see most of the board.
-> Agents play each other on a public ladder, and the strongest small models win.
+> Agents play each other in two tournaments, and the strongest small models win.
 
 - **Individual project**, 20 points of your grade, plus extra credit for the top 10.
-- **Proposal** due Fri Oct 30 · **checkpoint** Tue Nov 17 · **model freeze** Fri Dec 4 · **report and video** Sat Dec 12.
+- **Proposal** Fri Oct 23 · **pre-tournament entry** Tue Nov 17 · **final entry** Fri Dec 4 · **report and video** Sat Dec 12.
 
 ---
 
@@ -53,8 +53,9 @@ whole board**. Here, they can't.
 
 ## 3. What you build, and the rules at a glance
 
-You write `submission/agent.py`: given what your side can see, return a move. Inside, you
-design everything: memory, belief about hidden pieces, search with your own networks, sampling.
+You write `submission/agent.py`: given what your side can see, return a move. The exact
+interface is in [docs/API.md](docs/API.md). Inside, you design everything: memory, belief about
+hidden pieces, search with your own networks, sampling.
 
 | Rule | In short | Details |
 |---|---|---|
@@ -65,7 +66,13 @@ design everything: memory, belief about hidden pieces, search with your own netw
 | Work in the open | Commit and push often; each commit is one clear step, and your journal records every experiment | [POLICIES](docs/POLICIES.md#your-repository-and-commit-history) |
 | AI assistants | Allowed and encouraged, with disclosure | [POLICIES](docs/POLICIES.md#ai-assistants), [RESOURCES](docs/RESOURCES.md) |
 
-Ratings are Elo from games on the ladder. The leaderboard ranks by **size-adjusted** Elo.
+Ratings are Elo from tournament games, and rankings use **size-adjusted** Elo.
+
+- **The pre-tournament** (entries due Nov 17): everyone's first version plays everyone else's.
+  Weak models are welcome.
+- **The final tournament** (entries due Dec 4): decides the rankings and the extra credit.
+
+Details are in [docs/COMPETITION.md](docs/COMPETITION.md#tournaments).
 
 ## 4. Quick start
 
@@ -130,8 +137,8 @@ project, [docs/RULES.md](docs/RULES.md) and `fow/game.py` decide.
 
 ## 7. Resources
 
-- **AI coding tools:** ASU gives every student free tools, and the course provides a Qwen3.8-27B
-  endpoint on request. See [docs/RESOURCES.md](docs/RESOURCES.md#ai-assistants).
+- **AI coding tools:** ASU gives every student free tools: ChatGPT Edu with Codex, CreateAI,
+  and GitHub Copilot Student. See [docs/RESOURCES.md](docs/RESOURCES.md#ai-assistants).
 - **Compute:** your Sol class account. See [docs/RESOURCES.md](docs/RESOURCES.md#sol).
 - **Libraries:** [python-chess](https://python-chess.readthedocs.io), [PyTorch](https://pytorch.org/docs/),
   [Stockfish](https://stockfishchess.org).
@@ -142,7 +149,7 @@ project, [docs/RULES.md](docs/RULES.md) and `fow/game.py` decide.
 |---|---|
 | `submission/` | **your agent**; starts as a copy of the baseline |
 | `JOURNAL.md`, `AI_USE.md` | your project journal and AI disclosure; keep them current |
-| [`docs/`](docs) | [rules](docs/RULES.md), [submissions and ratings](docs/COMPETITION.md), [policies](docs/POLICIES.md), [grading](docs/GRADING.md), [resources](docs/RESOURCES.md) |
+| [`docs/`](docs) | [rules](docs/RULES.md), [agent API](docs/API.md), [submissions and tournaments](docs/COMPETITION.md), [policies](docs/POLICIES.md), [grading](docs/GRADING.md), [resources](docs/RESOURCES.md) |
 | `fow/` | rules engine, referee, reference bots, and the tools `arena`, `validate`, `params` |
 | `agents/template/` | the smallest valid agent (random moves): the interface in 20 lines |
 | `agents/baseline/` | the starting baseline |
@@ -154,10 +161,10 @@ project, [docs/RULES.md](docs/RULES.md) and `fow/game.py` decide.
 
 | Date | What |
 |---|---|
-| Fri Oct 30, 11:59 PM | proposal ([what to submit](docs/GRADING.md#proposal-2-points)) |
-| early November | weekly ladder runs begin (times on Canvas) |
-| Tue Nov 17, 11:59 PM | checkpoint |
-| Fri Dec 4, 11:59 PM | model freeze: your last `ladder-` release counts |
+| Fri Oct 23, 11:59 PM | proposal ([what to submit](docs/GRADING.md#proposal-2-points)) |
+| Tue Nov 17, 11:59 PM | pre-tournament entry: your first version, any strength |
+| the following days | pre-tournament: all entries play each other; you get your results and games |
+| Fri Dec 4, 11:59 PM | final entry (model freeze) |
 | Dec 5–8 | final tournament |
 | Sat Dec 12, 11:59 PM | final report and recorded presentation |
 

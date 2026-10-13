@@ -14,22 +14,12 @@ in `AI_USE.md` and follow the rules in [POLICIES.md](POLICIES.md#ai-assistants).
 |---|---|---|
 | **ChatGPT Edu** (ASU workspace) | chat, writing and debugging code; includes Codex | Subscribe to "ChatGPT: User Account" in the [Self-Subscription Portal](https://asu.edu/selfsub), then sign in at <https://links.asu.edu/chatgpt-login> with your ASURITE ([details](https://ai.asu.edu/ai-tools/chatgpt-edu)). |
 | **GitHub Copilot Student** | code completion and chat in VS Code and other editors | Get verified through GitHub Education, then turn the benefit on at <https://github.com/settings/education/benefits> ([details](https://docs.github.com/en/copilot/how-tos/manage-your-account/free-access-with-copilot-student)). |
-| **CreateAI** (ASU's own platform: Chat, Builder, Compare) | trying and comparing many models | <https://ai.asu.edu/createai-platform> |
+| **CreateAI** (ASU's own platform: Chat, Builder, Compare) | dozens of models, including open models such as Qwen, in one place | <https://ai.asu.edu/createai-platform> |
 | **Google Gemini** and **Microsoft Copilot Chat** (ASU accounts) | general chat | <https://ai.asu.edu/ai-tools/google-gemini>, <https://ai.asu.edu/ai-tools/copilot-chat> |
 
 The full list of ASU-provided tools, with which ones students can use, is at
 <https://ai.asu.edu/ai-tools>. Sign in with your ASU account, not a personal one, so ASU's data
 protections apply. Never paste passwords, SSH keys or API keys into a chat.
-
-### The course's Qwen3.8-27B endpoint
-
-The course provides access to a **Qwen3.8-27B** model endpoint on request. You can use it, for
-example, as the model behind an open-source coding agent or for your own experiments.
-
-- **To request it:** send a Canvas message to the instructor with the subject
-  `[CSE598] Qwen endpoint`. You will receive the endpoint, a personal key, and its usage limits.
-- **Your key is yours:** don't share it, and don't commit it to your repository (keep it in an
-  environment variable).
 
 ### Other tools
 
