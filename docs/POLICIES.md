@@ -10,15 +10,20 @@ Your agent is the code around your core model, and you design it. It may include
 - encoding the observation, memory of past observations, belief tracking about hidden pieces;
 - the game rules themselves: which moves are legal, and that capturing a visible king wins the game;
 - search, sampling, or ensembles, **as long as every judgment of how good a position or move
-  is comes from your own core model** (all networks count toward your parameter count);
-- any amount of computation that fits the time control.
+  is comes from your own neural networks** (all of them count toward your parameter count;
+  see "Core models" in [COMPETITION.md](COMPETITION.md));
+- any amount of computation that fits the per-move FLOP budget.
 
 It may not include:
 
 - Stockfish or any other chess engine or game-playing program you did not train, in any form;
 - hand-written evaluation functions or move preferences (material counts, piece-square tables,
   "always capture the queen" rules); the rules of the game are fine, judgment is not;
+- any learned component that is not a neural network in your submission's weight files: no
+  decision trees, nearest-neighbour lookups, or statistics gathered from games;
 - opening books or tables of stored moves or positions;
+- network computation outside PyTorch in the thread that calls `act` (it would escape the FLOP
+  count; see [COMPETITION.md](COMPETITION.md));
 - network access, files outside your agent directory, or information carried between games.
 
 ## At training time

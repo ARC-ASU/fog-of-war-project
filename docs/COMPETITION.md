@@ -68,15 +68,50 @@ You get no other information. In particular you are never told who your opponent
 
 | Limit | Value |
 |---|---|
-| Core model size | fewer than **500M parameters** in total |
+| Core models | one or more **neural networks**, fewer than **250M parameters** in total (see below) |
 | Weight files | `.safetensors` only; every tensor in them counts as parameters |
 | Everything else in `submission/` (code, configs) | at most 5 MB |
-| Time | a per-game clock and a per-move cap, measured on the ladder machine (an NVIDIA RTX Pro 6000). **Values will be announced before the first ladder run.** |
-| Memory | announced with the time control |
+| Compute per move | at most **10¹² FLOPs** (1 TFLOP) per call to `act`, counted as described below |
+| Wall clock | 10 s per move and 300 s to load, only to catch agents that hang; the ladder runs on an NVIDIA RTX Pro 6000 |
+| GPU memory | announced before the first ladder run |
+
+### Core models
+
+Your agent's judgment must come from neural networks you trained or fine-tuned.
+
+- **Several networks are allowed:** for example a policy network, a value network and a belief
+  network, or an ensemble. Their parameter counts add up, and the total must stay under 250M.
+- **Every network you use at play time must be in your submission.** Its weights go in
+  `.safetensors` files inside `submission/`, loaded by your agent and counted as parameters.
+- **No other learned or stored knowledge at play time:** no decision trees, nearest-neighbour
+  lookups, position or move tables, or statistics gathered from games.
+- **Plain code may handle the rest:** the game rules, encoding the observation, memory of what
+  you have seen, sampling, and search that calls your networks. See
+  [POLICIES.md](POLICIES.md).
 
 **Parameters** are counted from your weight files by `python -m fow.params submission`: every
-element of every tensor in every `.safetensors` file. If your agent uses several networks,
-their sizes add up. Storing weights in fewer bits does not lower the count.
+element of every tensor in every `.safetensors` file, including buffers such as batch-norm
+statistics. Storing weights in fewer bits does not lower the count, and neither does a network
+being used several times.
+
+### How compute is counted
+
+The budget is in FLOPs rather than seconds, so you can check it on any machine, CPU included,
+and get the same number the ladder gets.
+
+- **What is counted:** the referee wraps every call to `act` in PyTorch's
+  `torch.utils.flop_counter.FlopCounterMode`. It counts the matrix multiplications,
+  convolutions and attention your networks run during that call, across all forward passes:
+  search, sampling and ensembles included.
+- **For scale:** one forward pass of a network with P parameters over T input tokens costs
+  roughly 2·P·T FLOPs. At the 250M limit with a 64-token board, that is about 3×10¹⁰, so the
+  budget allows roughly 30 such passes per move. The baseline uses 4×10⁷.
+- **What you must do so it is counted:** run your networks with PyTorch, in the thread that
+  calls `act`. Network computation done any other way (NumPy, other frameworks, custom
+  kernels, other threads or processes) is not allowed at play time.
+- **What happens if you go over:** a move over the budget loses the game. `fow.validate`
+  reports your FLOPs per move, and `python -m fow.arena ... --official` applies the ladder's
+  limits.
 
 Before you tag an entry, run:
 
@@ -84,8 +119,9 @@ Before you tag an entry, run:
 python -m fow.validate submission --device cuda
 ```
 
-It checks the layout, counts parameters, plays games against `bot:random`, replays two of them
-to check that your moves are reproducible, and reports your load and move times.
+It checks the layout, counts parameters, plays games against `bot:random` with the FLOP budget
+enforced, replays two of them to check that your moves are reproducible, and reports FLOPs per
+move (plus load and move times on your machine, for information).
 
 ## Entering the ladder
 
@@ -115,7 +151,7 @@ to check that your moves are reproducible, and reports your load and move times.
 Smaller models are preferred. Your rank uses the size-adjusted rating:
 
 ```
-adjusted Elo = Elo + β · log2( 500M / max(P, 1M) )
+adjusted Elo = Elo + β · log2( 250M / max(P, 1M) )
 ```
 
 where P is your parameter count:

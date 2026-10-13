@@ -5,11 +5,12 @@
 Checks
   1. Layout: agent.py and MODEL.md exist; weights are .safetensors only; everything that is
      not a weight file adds up to at most 5 MB.
-  2. Size: the parameter count (all tensors in all .safetensors files) is under 500M.
-  3. Play: it loads, plays legal moves without errors in games against bot:random as both colors.
+  2. Size: the parameter count (all tensors in all .safetensors files) is under 250M.
+  3. Play: it loads, plays legal moves without errors in games against bot:random as both
+     colors, and no move uses more than the per-move FLOP budget.
   4. Replay: with the same seeds it plays exactly the same moves again.
-  5. Timing: load time and per-move times on this machine (the official limits are measured
-     on the ladder machine; see docs/COMPETITION.md).
+  5. Compute: FLOPs per move (the limit that counts; the same on any machine) and, for
+     information, load and move times on this machine.
 """
 from __future__ import annotations
 
@@ -18,11 +19,10 @@ import os
 import statistics
 import sys
 
+from .limits import MAX_MOVE_FLOPS, MAX_OTHER_BYTES, MAX_PARAMS
 from .params import count_params
 from .referee import TimeControl, make_player, play_game
 
-MAX_PARAMS = 500_000_000
-MAX_OTHER_BYTES = 5 * 1024 * 1024
 FORBIDDEN_EXT = (".pt", ".pth", ".bin", ".ckpt", ".pkl", ".pickle", ".npy", ".npz", ".onnx", ".h5", ".joblib", ".gguf")
 SKIP_DIRS = {"__pycache__", ".git"}
 
@@ -82,10 +82,9 @@ def main(argv=None):
     records = []
     for g in range(args.games):
         w, b = (agent, bot) if g % 2 == 0 else (bot, agent)
-        records.append(play_game(w, b, seed=1000 + g, tc=TimeControl()))
+        records.append(play_game(w, b, seed=1000 + g, tc=TimeControl(max_flops=MAX_MOVE_FLOPS)))
     for r in records:
-        side = "white" if r.white == agent.name else "black"
-        if "error" in r.termination or "illegal" in r.termination:
+        if any(k in r.termination for k in ("error", "illegal", "FLOP")):
             fail(f"game {r.seed}: {r.termination}")
     wins = sum(1 for r in records if (r.result == "1-0") == (r.white == agent.name) and r.result != "1/2-1/2")
     print(f"  {len(records)} games against bot:random: {wins} wins")
@@ -93,17 +92,25 @@ def main(argv=None):
     print("4. Replay")
     for r in records[:2]:
         w, b = (agent, bot) if r.white == agent.name else (bot, agent)
-        again = play_game(w, b, seed=r.seed, tc=TimeControl())
+        again = play_game(w, b, seed=r.seed, tc=TimeControl(max_flops=MAX_MOVE_FLOPS))
         if again.moves != r.moves:
             fail(f"game {r.seed} went differently on replay: make your agent deterministic given the seed")
     if ok:
         print("  same moves on replay")
 
-    print("5. Timing on this machine")
-    times = [t for r in records for side in ("white", "black")
-             if (r.white if side == "white" else r.black) == agent.name for t in r.seconds[side]]
+    print("5. Compute")
+    mine = [(r, side) for r in records for side in ("white", "black")
+            if (r.white if side == "white" else r.black) == agent.name]
+    flops = sorted(f for r, side in mine for f in r.flops[side])
+    if flops:
+        print(f"  FLOPs per move: mean {statistics.mean(flops):.3g}, max {flops[-1]:.3g} "
+              f"(budget {MAX_MOVE_FLOPS:.3g}, max uses {flops[-1] / MAX_MOVE_FLOPS:.1%} of it)")
+        if total > 0 and flops[-1] == 0:
+            fail("your agent has parameters but no PyTorch FLOPs were counted: run your networks "
+                 "with PyTorch in the thread that calls act() (see docs/COMPETITION.md)")
+    times = sorted(t for r, side in mine for t in r.seconds[side])
     if times:
-        times.sort()
+        print("  time on this machine (for information; the ladder limits FLOPs, not time):")
         print(f"  per move: mean {statistics.mean(times) * 1000:.1f} ms, "
               f"95th percentile {times[int(0.95 * (len(times) - 1))] * 1000:.1f} ms, max {times[-1] * 1000:.1f} ms")
     agent.close()

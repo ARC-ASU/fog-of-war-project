@@ -4,8 +4,9 @@ Build the strongest agent you can for **Fog-of-War chess** (also called Dark Che
 smallest model you can. Fog-of-War chess is chess in which you see only your own pieces and the
 squares they can move to. There is no check; you win by capturing the king.
 
-Agents play each other on a public ladder rated by Elo, and smaller core models get a rating
-bonus. The project runs from now until December, individually, and is worth 20 points of
+Agents play each other on a public ladder rated by Elo. Your agent's judgment must come from
+neural networks totalling under 250M parameters, each move gets a fixed FLOP budget, and smaller
+models get a rating bonus. The project runs from now until December, individually, and is worth 20 points of
 your grade plus extra credit for the top 10 (see [docs/GRADING.md](docs/GRADING.md)).
 
 ## Why this game

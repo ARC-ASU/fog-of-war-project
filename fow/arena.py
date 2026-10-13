@@ -7,8 +7,8 @@ Examples
     # every player against every other player
     python -m fow.arena submission agents/baseline bot:greedy --mode round-robin --games 20
 
-    # on a GPU node, 4 games at a time, with a clock
-    python -m fow.arena submission bot:guess-sf-4x500 --device cuda --workers 4 --clock 60 --move-cap 5
+    # on a GPU node, 4 games at a time, with the ladder's per-move limits
+    python -m fow.arena submission bot:guess-sf-4x500 --device cuda --workers 4 --official
 
 Ratings are printed on the ladder's scale: reference bots keep their published ratings
 (fow/bots.py REFERENCE_RATINGS); everyone else is estimated from the games played here.
@@ -41,7 +41,8 @@ def _run(job):
     for spec in (white, black):
         if spec not in _players:
             _players[spec] = make_player(spec, _cfg["device"], _cfg["log_dir"])
-    tc = TimeControl(_cfg["clock"], _cfg["increment"], _cfg["move_cap"])
+    tc = TimeControl(max_flops=_cfg["max_flops"], move_cap=_cfg["move_cap"],
+                     clock=_cfg["clock"], increment=_cfg["increment"])
     rec = play_game(_players[white], _players[black], seed, tc)
     rec.white, rec.black = white, black
     return asdict(rec)
@@ -97,16 +98,24 @@ def main(argv=None):
     ap.add_argument("--games", type=int, default=20, help="games per pairing, colors alternate")
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--device", default="cpu")
-    ap.add_argument("--clock", type=float, default=None, help="seconds per side per game")
+    ap.add_argument("--max-flops", type=float, default=None,
+                    help="per-move FLOP budget; the ladder uses fow.limits.MAX_MOVE_FLOPS")
+    ap.add_argument("--official", action="store_true", help="use the ladder's limits (fow/limits.py)")
+    ap.add_argument("--move-cap", type=float, default=None, help="wall-clock seconds per move (hang guard)")
+    ap.add_argument("--clock", type=float, default=None, help="optional chess clock: seconds per side per game")
     ap.add_argument("--increment", type=float, default=0.0)
-    ap.add_argument("--move-cap", type=float, default=None, help="max seconds for any single move")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default=None, help="write one JSON line per game here")
     ap.add_argument("--log-dir", default="arena_logs", help="agents' stderr goes here")
     args = ap.parse_args(argv)
 
     jobs = schedule(args.players, args.mode, args.games, args.seed)
-    cfg = dict(device=args.device, log_dir=args.log_dir, clock=args.clock, increment=args.increment, move_cap=args.move_cap)
+    if args.official:
+        from .limits import MAX_MOVE_FLOPS, MOVE_WALL_SECONDS
+        args.max_flops = args.max_flops or MAX_MOVE_FLOPS
+        args.move_cap = args.move_cap or MOVE_WALL_SECONDS
+    cfg = dict(device=args.device, log_dir=args.log_dir, clock=args.clock, increment=args.increment,
+               move_cap=args.move_cap, max_flops=args.max_flops)
     print(f"Playing {len(jobs)} games with {args.workers} worker(s)...", flush=True)
     records = []
     out = open(args.out, "w") if args.out else None

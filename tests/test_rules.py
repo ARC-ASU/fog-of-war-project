@@ -82,5 +82,5 @@ def test_elo_fit_orders_players():
 
 
 def test_size_adjustment():
-    assert size_adjusted(1000, 500_000_000, 50) == 1000
-    assert abs(size_adjusted(1000, 1_000, 50) - (1000 + 50 * 8.965784284662087)) < 1e-6
+    assert size_adjusted(1000, 250_000_000, 50) == 1000
+    assert abs(size_adjusted(1000, 1_000, 50) - (1000 + 50 * 7.965784284662087)) < 1e-6

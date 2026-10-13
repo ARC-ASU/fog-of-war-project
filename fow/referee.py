@@ -4,7 +4,7 @@ A player is either a path to an agent directory (run in a separate process throu
 or a reference bot name such as "bot:greedy" (run in-process; bots only read observations).
 
 Losing conditions besides having your king captured: an illegal move, an exception, a crash,
-or running out of time.
+using more than the per-move FLOP budget, or exceeding the wall-clock guard.
 """
 from __future__ import annotations
 
@@ -23,12 +23,14 @@ from .game import Game
 
 @dataclass
 class TimeControl:
-    """Per side: `clock` seconds for the whole game plus `increment` per move, and no single move
-    may take longer than `move_cap` seconds. None means unlimited. Official values are announced
-    in docs/COMPETITION.md."""
+    """Limits per move. `max_flops`: the compute budget for one move (PyTorch FLOPs counted while
+    act() runs). `move_cap`: a wall-clock limit in seconds that only exists to catch agents that
+    hang. `clock`/`increment`: an optional chess clock per side. None means unlimited.
+    Official values are in docs/COMPETITION.md."""
+    max_flops: float | None = None
+    move_cap: float | None = None
     clock: float | None = None
     increment: float = 0.0
-    move_cap: float | None = None
     load_timeout: float = 300.0
 
 
@@ -89,8 +91,9 @@ class ProcessPlayer:
     def reset(self, color: str, seed: int) -> None:
         self._call({"cmd": "reset", "color": color, "seed": seed}, timeout=60)
 
-    def act(self, obs: dict, timeout: float | None) -> str:
-        return self._call({"cmd": "act", "obs": obs}, timeout)["move"]
+    def act(self, obs: dict, timeout: float | None) -> tuple[str, int]:
+        reply = self._call({"cmd": "act", "obs": obs}, timeout)
+        return reply["move"], int(reply.get("flops", 0))
 
     def kill(self):
         if self.proc is not None and self.proc.poll() is None:
@@ -117,7 +120,7 @@ class BotPlayer:
         self.bot.reset(color, seed)
 
     def act(self, obs, timeout):
-        return self.bot.act(obs)
+        return self.bot.act(obs), 0
 
     def close(self):
         self.bot.close()
@@ -143,6 +146,7 @@ class GameRecord:
     plies: int = 0
     moves: list = field(default_factory=list)
     seconds: dict = field(default_factory=dict)   # color -> list of per-move times
+    flops: dict = field(default_factory=dict)     # color -> list of per-move FLOPs
 
 
 def play_game(white, black, seed: int, tc: TimeControl | None = None) -> GameRecord:
@@ -150,7 +154,8 @@ def play_game(white, black, seed: int, tc: TimeControl | None = None) -> GameRec
     tc = tc or TimeControl()
     game = Game()
     players = {"white": white, "black": black}
-    rec = GameRecord(white.name, black.name, seed, seconds={"white": [], "black": []})
+    rec = GameRecord(white.name, black.name, seed, seconds={"white": [], "black": []},
+                     flops={"white": [], "black": []})
     clock = {"white": tc.clock, "black": tc.clock}
     for i, color in enumerate(("white", "black")):
         try:
@@ -165,13 +170,17 @@ def play_game(white, black, seed: int, tc: TimeControl | None = None) -> GameRec
         obs = game.observation()
         t = time.perf_counter()
         try:
-            move = players[color].act(obs, None if limit is None else limit + 0.5)
+            move, flops = players[color].act(obs, None if limit is None else limit + 0.5)
         except AgentError as e:
             last = (str(e).strip().splitlines() or ["error"])[-1]
             game.forfeit(color, f"{color} error: {last[:200]}")
             break
         dt = time.perf_counter() - t
         rec.seconds[color].append(round(dt, 4))
+        rec.flops[color].append(flops)
+        if tc.max_flops is not None and flops > tc.max_flops:
+            game.forfeit(color, f"{color} exceeded the per-move FLOP budget ({flops:.3g} FLOPs)")
+            break
         if tc.move_cap is not None and dt > tc.move_cap:
             game.forfeit(color, f"{color} exceeded the per-move cap ({dt:.2f}s)")
             break

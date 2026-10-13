@@ -62,6 +62,6 @@ def fit_with_intervals(games, pinned=None, n_boot: int = 100, seed: int = 0):
     return out
 
 
-def size_adjusted(elo: float, params: int, beta: float, cap: int = 500_000_000, floor: int = 1_000_000) -> float:
+def size_adjusted(elo: float, params: int, beta: float, cap: int = 250_000_000, floor: int = 1_000_000) -> float:
     """Adjusted Elo = Elo + beta * log2(cap / max(params, floor)). beta is announced in docs/COMPETITION.md."""
     return elo + beta * math.log2(cap / max(params, floor))

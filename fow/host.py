@@ -8,9 +8,12 @@ Protocol: one JSON object per line.
                       {"cmd": "quit"}
     agent -> referee: {"ready": true, "load_seconds": 1.2}   (once, after loading)
                       {"ok": true}                            (after reset)
-                      {"move": "e2e4"}                        (after act)
+                      {"move": "e2e4", "flops": 1.2e9}        (after act; FLOPs counted while act() ran)
                       {"error": "..."}                        (on an exception)
 Anything the agent prints goes to stderr, so it cannot corrupt the protocol.
+
+FLOPs are counted with torch.utils.flop_counter.FlopCounterMode around each act() call: the
+matrix multiplications, convolutions and attention that PyTorch runs in the calling thread.
 """
 from __future__ import annotations
 
@@ -30,6 +33,15 @@ def load_agent(agent_dir: str, device: str):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module.Agent(agent_dir, device)
+
+
+def flop_counter():
+    """A context manager that counts PyTorch FLOPs, or None if PyTorch is not installed."""
+    try:
+        from torch.utils.flop_counter import FlopCounterMode
+    except Exception:
+        return None
+    return FlopCounterMode(display=False)
 
 
 def main() -> None:
@@ -52,6 +64,10 @@ def main() -> None:
     except Exception:
         send({"error": "load failed: " + traceback.format_exc(limit=5)})
         return
+    counter = flop_counter()            # first use is slow (imports); do it before the clock starts
+    if counter is not None:
+        with counter:
+            pass
     send({"ready": True, "load_seconds": time.perf_counter() - t})
 
     for line in sys.stdin:
@@ -61,7 +77,14 @@ def main() -> None:
                 agent.reset(msg["color"], int(msg["seed"]))
                 send({"ok": True})
             elif msg["cmd"] == "act":
-                send({"move": str(agent.act(msg["obs"]))})
+                counter = flop_counter()
+                if counter is None:
+                    move, flops = agent.act(msg["obs"]), 0
+                else:
+                    with counter:
+                        move = agent.act(msg["obs"])
+                    flops = counter.get_total_flops()
+                send({"move": str(move), "flops": int(flops)})
             elif msg["cmd"] == "quit":
                 break
         except Exception:
