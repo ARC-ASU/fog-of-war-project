@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+arena_logs/
+validate_logs/
+data/
+runs/
+*.jsonl
+stockfish/

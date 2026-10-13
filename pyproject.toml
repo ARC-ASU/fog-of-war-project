@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fow"
+version = "0.1.0"
+description = "Fog-of-War chess: rules engine, referee, reference bots and ratings for the CSE 598 final project"
+requires-python = ">=3.10"
+dependencies = ["chess>=1.10", "numpy"]
+
+[project.optional-dependencies]
+baseline = ["torch>=2.1", "safetensors>=0.4"]
+dev = ["pytest"]
+
+[tool.setuptools]
+packages = ["fow"]
