@@ -25,6 +25,8 @@ Submit a link to your repository (with staff access) and a PDF of at most 2 page
   to happen and how you will measure it.
 - **Your compute budget:** what you expect to run on Sol.
 - **A journal:** `JOURNAL.md` has started.
+- **A pushed history:** your commits so far are pushed, following
+  [the commit rules](POLICIES.md#your-repository-and-commit-history).
 
 ## Checkpoint (2 points)
 
@@ -39,6 +41,9 @@ Submit a link to your repository (with staff access) and a PDF of at most 2 page
 - Your training can be reproduced from your repository with the documented commands and
   seeds, and the result plays at a similar level.
 - Your code is readable.
+- **Your commit history** shows the work step by step: small logical commits with clear
+  messages, pushed every week, matching your journal. A history that can't be followed costs
+  points here, and may trigger a verification check.
 
 ## Experimental design and evaluation (4 points)
 

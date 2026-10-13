@@ -7,7 +7,7 @@ This is where the evidence for your grade lives (see docs/GRADING.md).
 
 ### YYYY-MM-DD: short title
 - **Question / hypothesis:** what you expect and why.
-- **Change:** what you changed (link the commit).
+- **Commit:** the commit hash the experiment ran at, and what you changed.
 - **Setup:** data, model size, training compute (GPU-hours), games played for evaluation.
 - **Result:** numbers with intervals (for example `fow.arena` ratings), plus anything you saw in games.
 - **Decision:** what you will do next, and why.

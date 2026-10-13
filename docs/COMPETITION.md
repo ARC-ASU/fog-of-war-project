@@ -8,6 +8,8 @@
    valid entry exists from day one.
 3. Keep your notes in [`JOURNAL.md`](../JOURNAL.md) and your AI disclosure in
    [`AI_USE.md`](../AI_USE.md) (see [POLICIES.md](POLICIES.md)).
+4. Commit and push as you work: one logical step per commit, and pushed commits every week
+   ([the commit rules](POLICIES.md#your-repository-and-commit-history)).
 
 ## The agent interface
 

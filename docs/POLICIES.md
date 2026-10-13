@@ -48,10 +48,38 @@ You may not use:
 - If you use any other hardware, list it with its GPU-hours in `submission/MODEL.md`.
 - Record the compute of every training run in your journal.
 
+## Your repository and commit history
+
+Your GitHub repository is the record of your project, and the staff will read it. Keep it
+**actively committed and pushed** so that anyone can follow how your agent came to be, one
+step at a time.
+
+- **One logical step per commit.** A commit does one thing (a new feature encoding, a training
+  script change, a bug fix, a new experiment config). Its message says what changed and why,
+  for example `Add value head to policy net to train on game outcomes`. Don't mix unrelated
+  changes, and don't sit on a week of work and commit it as one dump.
+- **Push as you go.** Push at the end of every working session. At the least, there must be
+  pushed commits in **every week** from the proposal (Oct 30) to the model freeze (Dec 4).
+  A history that is empty and then appears all at once near a deadline will be questioned.
+- **Never rewrite pushed history.** No force-pushes, and no squashing or rebasing commits you
+  have already pushed. Fix mistakes with new commits.
+- **Link experiments to commits.** Every journal entry names the commit it ran at, so each
+  result can be reproduced from the exact code.
+- **Commit what is needed to reproduce your work:** code, configs, training commands and seeds,
+  logs and small result files. Don't commit large datasets or secrets (API keys, tokens).
+  Put weights over 100 MB in release assets.
+- **Mark AI-written commits.** Commits written mostly by a coding agent carry a trailer naming
+  it (see below).
+- **Staff access:** your repository is private, the course staff are collaborators, and they
+  may read it at any time. The commit history is part of how your work is graded
+  ([GRADING.md](GRADING.md)) and how its authenticity is verified.
+
 ## AI assistants
 
 You **may** use AI assistants and coding agents to write code, debug, and explore ideas. It is
 a normal part of the work now, and learning to direct these tools well is part of the point.
+[RESOURCES.md](RESOURCES.md#ai-assistants) lists the free tools available to everyone in the
+course, including ASU's tools and the course's Qwen3.8-27B endpoint.
 
 You **must**:
 
