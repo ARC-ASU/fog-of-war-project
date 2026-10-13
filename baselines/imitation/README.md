@@ -8,6 +8,8 @@ The baseline imitates **full-board Stockfish**, a teacher that sees what your ag
 2. **Training:** `train.py` fits `agents/baseline/model.py` with cross-entropy over legal moves
    and writes `config.json` and `weights/model.safetensors` into the agent directory.
 
+The repository's `reproduce.sh` runs exactly these steps:
+
 ```bash
 export STOCKFISH=/path/to/stockfish
 python baselines/imitation/generate_data.py --games 4000 --workers 2 --out data/imitation

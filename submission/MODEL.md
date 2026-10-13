@@ -12,4 +12,4 @@
 - **Training:** `baselines/imitation/train.py --epochs 8 --seed 0` (AdamW, one-cycle learning rate 2e-3, batch 256)
 - **Training compute:** about 12 minutes on 2 CPU cores; no GPU
 - **Validation match with teacher:** 39.4% of held-out positions (top move equals the teacher's)
-- **How to reproduce:** see `baselines/imitation/README.md`
+- **How to reproduce:** `bash reproduce.sh` (see `REPRODUCE.md`)

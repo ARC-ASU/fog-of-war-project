@@ -41,10 +41,12 @@ The pre-tournament is your first entry playing against everyone else's.
 ## Implementation and reproducibility (4 points)
 
 - Your final entry is valid and runs within the limits.
-- `submission/MODEL.md` is complete.
-- Your training can be reproduced from your repository with the documented commands and
-  seeds, and the result plays at a similar level.
-- Your code is readable.
+- **Replication succeeds.** The staff's end-to-end replication from your `REPRODUCE.md` and
+  `reproduce.sh` produces a similar agent within the replication budget. A failed replication
+  is an academic integrity matter, not only a deduction; see
+  [POLICIES.md](POLICIES.md#documentation-and-end-to-end-replication).
+- **Clear documentation:** `REPRODUCE.md`, `submission/MODEL.md` and your code are clear enough
+  for someone new to follow.
 - **Your commit history** shows the work step by step: small logical commits with clear
   messages, pushed every week, matching your journal. A history that can't be followed costs
   points here, and may trigger a verification check.
@@ -83,7 +85,7 @@ percentage points added to the final course grade:
 To receive it you must:
 
 - follow every rule in [POLICIES.md](POLICIES.md);
-- have training that reproduces when the staff retrain your entry;
+- have an entry that the staff's end-to-end replication reproduces;
 - complete the live walkthrough.
 
 If an entry is disqualified, the entries below it move up.

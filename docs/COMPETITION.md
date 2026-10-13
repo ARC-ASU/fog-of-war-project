@@ -2,13 +2,27 @@
 
 ## Your repository
 
-1. Create your own repository from this template ("Use this template" on GitHub). Make it
-   **private** and add the course staff as collaborators (usernames will be announced on Canvas).
-2. Keep your agent in [`submission/`](../submission). It starts as a copy of the baseline, so a
-   valid entry exists from day one.
-3. Keep your notes in [`JOURNAL.md`](../JOURNAL.md) and your AI disclosure in
-   [`AI_USE.md`](../AI_USE.md) (see [POLICIES.md](POLICIES.md)).
-4. Commit and push as you work: one logical step per commit, and pushed commits every week
+1. **Your private repository is created for you.**
+   - Submit your GitHub username on Canvas.
+   - The staff create a **private** copy of this template for you in the course's GitHub
+     organization and invite you with write access.
+   - Only you and the course staff can see it. Keep it private: never make it public, fork it
+     elsewhere, or share access.
+2. **To receive fixes to this template** (rules engine, tools, docs), add it as a second remote
+   once, then pull from it when fixes are announced:
+   ```bash
+   git remote add upstream https://github.com/ARC-ASU/fog-of-war-project.git
+   git pull upstream main
+   ```
+   Official games always use the official `fow` package, whatever your copy contains.
+3. **Your agent** lives in [`submission/`](../submission). It starts as a copy of the
+   baseline, so a valid entry exists from day one.
+4. **Your documentation:** keep [`REPRODUCE.md`](../REPRODUCE.md) and `reproduce.sh` current.
+   The staff will rerun your training from scratch
+   ([replication](POLICIES.md#documentation-and-end-to-end-replication)).
+5. **Your notes:** keep [`JOURNAL.md`](../JOURNAL.md) and your AI disclosure
+   [`AI_USE.md`](../AI_USE.md) current.
+6. **Commit and push as you work:** one logical step per commit, and pushed commits every week
    ([the commit rules](POLICIES.md#your-repository-and-commit-history)).
 
 ## The agent interface

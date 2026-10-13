@@ -64,6 +64,7 @@ hidden pieces, search with your own networks, sampling.
 | Compute | At most **10¹² FLOPs per move**, counted automatically, the same on any machine | [COMPETITION](docs/COMPETITION.md#how-compute-is-counted) |
 | No engines at play time | No Stockfish or hand-written evaluation inside your agent. Engines **are** allowed as teachers during training. | [POLICIES](docs/POLICIES.md) |
 | Work in the open | Commit and push often; each commit is one clear step, and your journal records every experiment | [POLICIES](docs/POLICIES.md#your-repository-and-commit-history) |
+| Replicable from scratch | The staff rerun every entry's training from your `REPRODUCE.md` and `reproduce.sh`. It must produce a similar model within the replication budget, or it is an integrity violation. | [POLICIES](docs/POLICIES.md#documentation-and-end-to-end-replication) |
 | AI assistants | Allowed and encouraged, with disclosure | [POLICIES](docs/POLICIES.md#ai-assistants), [RESOURCES](docs/RESOURCES.md) |
 
 Ratings are Elo from tournament games, and rankings use **size-adjusted** Elo.
@@ -77,7 +78,7 @@ Details are in [docs/COMPETITION.md](docs/COMPETITION.md#tournaments).
 ## 4. Quick start
 
 ```bash
-# 0. Create your own private repository from this template (see docs/COMPETITION.md)
+# 0. Clone the private repository the staff created for you (see docs/COMPETITION.md)
 git clone <your-repo-url> && cd <your-repo>
 
 # 1. Install
@@ -148,6 +149,7 @@ project, [docs/RULES.md](docs/RULES.md) and `fow/game.py` decide.
 | Path | What it is |
 |---|---|
 | `submission/` | **your agent**; starts as a copy of the baseline |
+| `REPRODUCE.md`, `reproduce.sh` | how to rebuild your entry from scratch; the staff run these to replicate it |
 | `JOURNAL.md`, `AI_USE.md` | your project journal and AI disclosure; keep them current |
 | [`docs/`](docs) | [rules](docs/RULES.md), [agent API](docs/API.md), [submissions and tournaments](docs/COMPETITION.md), [policies](docs/POLICIES.md), [grading](docs/GRADING.md), [resources](docs/RESOURCES.md) |
 | `fow/` | rules engine, referee, reference bots, and the tools `arena`, `validate`, `params` |

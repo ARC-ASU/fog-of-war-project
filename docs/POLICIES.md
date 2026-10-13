@@ -34,7 +34,9 @@ You may use:
 - public chess data (for example the Lichess game database);
 - the reference bots and this repository's code;
 - self-play, reinforcement learning, distillation;
-- pretrained models with a license that allows it (any part used at play time counts toward your parameters).
+- pretrained models whose license allows it, **including public chess networks** such as Lc0
+  or Maia, as long as `reproduce.sh` downloads them from a public URL and any part used at play
+  time counts toward your parameters.
 
 You may not use:
 
@@ -74,6 +76,60 @@ step at a time.
   may read it at any time. The commit history is part of how your work is graded
   ([GRADING.md](GRADING.md)) and how its authenticity is verified.
 
+## Documentation and end-to-end replication
+
+**The staff will attempt to replicate every entry you submit, end to end and from scratch.**
+
+A TA starts from a fresh clone of the commit your entry points to and follows only your
+documentation. They regenerate your data, retrain your networks, rebuild `submission/`, and
+check that the result plays like the entry you submitted. Your repository must make this possible
+without asking you anything.
+
+### What your repository must contain
+
+- **`REPRODUCE.md`** (the template is at the repository root): how to reproduce your entry,
+  step by step. It covers:
+  - the environment, with exact package versions;
+  - every data source and how it is generated or downloaded;
+  - every training stage with its commands, configs and seeds;
+  - how `submission/` is assembled;
+  - the hardware and time each step took;
+  - the results the TA should expect.
+- **`reproduce.sh`**: one script that runs the whole pipeline from a fresh clone to a finished
+  `submission/` (it may call Sol job scripts). If parts must run as separate jobs, the script or
+  `REPRODUCE.md` says exactly in what order.
+- **Everything the pipeline needs:** all code and configs, committed. Data that isn't generated
+  by your code must be downloadable from a public URL by the script. No manual steps, no files
+  that exist only on your machine or in your Sol home directory, no hand-edited weights.
+- **Clear code:** a short README for each directory you add, docstrings for the main modules and
+  scripts, and names that say what things are. Someone new to your project should understand
+  it in an afternoon.
+- **`submission/MODEL.md`** filled in: parameters, weight files with SHA-256 checksums, data,
+  compute, and the `reproduce.sh` command that produced them.
+
+### What counts as a successful replication
+
+- **The budget:** replication must fit in **8 GPU-hours on one GPU** (A100 or RTX Pro 6000
+  class) and **100 CPU core-hours**, in total, including data generation. Design your final
+  training to fit, and measure it.
+- **The bar:** the replicated agent must be valid and play within **100 Elo** of your submitted
+  entry, measured in a match of at least 200 games between the two. Small differences from
+  random seeds and hardware are expected and fine.
+
+### If replication fails
+
+**An entry that cannot be replicated from your repository is an academic integrity violation.**
+It is reported under the ASU academic integrity policy, and the entry is removed from the
+tournaments. This includes:
+
+- missing or wrong steps;
+- data, code or weights that are not in the repository or downloadable by the script;
+- a pipeline that needs more than the replication budget;
+- a result clearly weaker than the submitted entry.
+
+So test it yourself: before each entry, run `reproduce.sh` from a fresh clone, on Sol, and check
+the result.
+
 ## AI assistants
 
 You **may** use AI assistants and coding agents to write code, debug, and explore ideas. It is
@@ -97,9 +153,7 @@ Hiding AI use, or submitting work you cannot explain, is an academic integrity v
 
 ## Verification
 
-- **Retraining checks:** the staff may retrain any entry from its repository with its
-  documented script and seeds, and check that the result plays at a similar level. This
-  includes every top-10 entry.
+- **Replication:** every entry is replicated end to end, as described above.
 - **Top-10 walkthrough:** before extra credit is awarded, each top-10 student gives a live
   10–15 minute walkthrough: one design decision, one failed experiment, and questions about
   their own code.
