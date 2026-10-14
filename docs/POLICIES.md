@@ -109,9 +109,8 @@ without asking you anything.
 
 ### What counts as a successful replication
 
-- **The budget:** replication must fit in **8 GPU-hours on one GPU** (A100 or RTX Pro 6000
-  class) and **100 CPU core-hours**, in total, including data generation. Design your final
-  training to fit, and measure it.
+- **Reasonable time:** the whole pipeline, data generation included, must run in a reasonable
+  time on Sol: hours, not days. Write down how long each step took in `REPRODUCE.md`.
 - **The bar:** the replicated agent must be valid and play within **100 Elo** of your submitted
   entry, measured in a match of at least 200 games between the two. Small differences from
   random seeds and hardware are expected and fine.
@@ -124,7 +123,7 @@ tournaments. This includes:
 
 - missing or wrong steps;
 - data, code or weights that are not in the repository or downloadable by the script;
-- a pipeline that needs more than the replication budget;
+- a pipeline that takes days to run;
 - a result clearly weaker than the submitted entry.
 
 So test it yourself: before each entry, run `reproduce.sh` from a fresh clone, on Sol, and check

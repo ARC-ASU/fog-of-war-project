@@ -17,13 +17,17 @@ Milestone dates are fixed; the 24-hour grace period for labs does not apply.
 
 ## Proposal (2 points)
 
-Submit a link to your repository (with staff access) and a PDF of at most 2 pages with:
+**Submit your repository's link on Canvas.** Your proposal *is* the repository:
 
-- **The baseline, reproduced:** you ran `agents/baseline` (or your copy in `submission/`)
-  against the reference bots with `python -m fow.arena`, and you report its local rating.
-- **Your plan:** two or three concrete ideas you will test first, each with what you expect
-  to happen and how you will measure it.
-- **Your compute budget:** what you expect to run on Sol.
+- **Set up correctly:** private, created from this template, with
+  [@3rdAT](https://github.com/3rdAT) and [@Slash0BZ](https://github.com/Slash0BZ) added as
+  collaborators ([how](COMPETITION.md#your-repository)).
+- **`PLAN.md` filled in** (a template is at the repository root):
+  - **The baseline, reproduced:** you ran it against the reference bots with
+    `python -m fow.arena` and report its local rating.
+  - **Your plan:** two or three concrete ideas you will test first, each with what you expect
+    to happen and how you will measure it.
+  - **Your compute plan:** what you expect to run on Sol.
 - **A journal:** `JOURNAL.md` has started.
 - **A pushed history:** your commits so far are pushed, following
   [the commit rules](POLICIES.md#your-repository-and-commit-history).
@@ -42,7 +46,7 @@ The pre-tournament is your first entry playing against everyone else's.
 
 - Your final entry is valid and runs within the limits.
 - **Replication succeeds.** The staff's end-to-end replication from your `REPRODUCE.md` and
-  `reproduce.sh` produces a similar agent within the replication budget. A failed replication
+  `reproduce.sh` produces a similar agent in a reasonable time. A failed replication
   is an academic integrity matter, not only a deduction; see
   [POLICIES.md](POLICIES.md#documentation-and-end-to-end-replication).
 - **Clear documentation:** `REPRODUCE.md`, `submission/MODEL.md` and your code are clear enough

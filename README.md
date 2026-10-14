@@ -64,7 +64,7 @@ hidden pieces, search with your own networks, sampling.
 | Compute | At most **10¹² FLOPs per move**, counted automatically, the same on any machine | [COMPETITION](docs/COMPETITION.md#how-compute-is-counted) |
 | No engines at play time | No Stockfish or hand-written evaluation inside your agent. Engines **are** allowed as teachers during training. | [POLICIES](docs/POLICIES.md) |
 | Work in the open | Commit and push often; each commit is one clear step, and your journal records every experiment | [POLICIES](docs/POLICIES.md#your-repository-and-commit-history) |
-| Replicable from scratch | The staff rerun every entry's training from your `REPRODUCE.md` and `reproduce.sh`. It must produce a similar model within the replication budget, or it is an integrity violation. | [POLICIES](docs/POLICIES.md#documentation-and-end-to-end-replication) |
+| Replicable from scratch | The staff rerun every entry's training from your `REPRODUCE.md` and `reproduce.sh`. It must produce a similar model in hours, not days, or it is an integrity violation. | [POLICIES](docs/POLICIES.md#documentation-and-end-to-end-replication) |
 | AI assistants | Allowed and encouraged, with disclosure | [POLICIES](docs/POLICIES.md#ai-assistants), [RESOURCES](docs/RESOURCES.md) |
 
 Ratings are Elo from tournament games, and rankings use **size-adjusted** Elo.
@@ -78,7 +78,8 @@ Details are in [docs/COMPETITION.md](docs/COMPETITION.md#tournaments).
 ## 4. Quick start
 
 ```bash
-# 0. Clone the private repository the staff created for you (see docs/COMPETITION.md)
+# 0. Create your private copy with "Use this template", add @3rdAT and @Slash0BZ as
+#    collaborators (docs/COMPETITION.md), then:
 git clone <your-repo-url> && cd <your-repo>
 
 # 1. Install
@@ -149,6 +150,7 @@ project, [docs/RULES.md](docs/RULES.md) and `fow/game.py` decide.
 | Path | What it is |
 |---|---|
 | `submission/` | **your agent**; starts as a copy of the baseline |
+| `PLAN.md` | your proposal: fill it in before Oct 23 |
 | `REPRODUCE.md`, `reproduce.sh` | how to rebuild your entry from scratch; the staff run these to replicate it |
 | `JOURNAL.md`, `AI_USE.md` | your project journal and AI disclosure; keep them current |
 | [`docs/`](docs) | [rules](docs/RULES.md), [agent API](docs/API.md), [submissions and tournaments](docs/COMPETITION.md), [policies](docs/POLICIES.md), [grading](docs/GRADING.md), [resources](docs/RESOURCES.md) |
@@ -163,7 +165,7 @@ project, [docs/RULES.md](docs/RULES.md) and `fow/game.py` decide.
 
 | Date | What |
 |---|---|
-| Fri Oct 23, 11:59 PM | proposal ([what to submit](docs/GRADING.md#proposal-2-points)) |
+| Fri Oct 23, 11:59 PM | proposal: your private repository's link, with `PLAN.md` filled in ([details](docs/GRADING.md#proposal-2-points)) |
 | Tue Nov 17, 11:59 PM | pre-tournament entry: your first version, any strength |
 | the following days | pre-tournament: all entries play each other; you get your results and games |
 | Fri Dec 4, 11:59 PM | final entry (model freeze) |

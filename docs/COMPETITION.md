@@ -2,12 +2,15 @@
 
 ## Your repository
 
-1. **Your private repository is created for you.**
-   - Submit your GitHub username on Canvas.
-   - The staff create a **private** copy of this template for you in the course's GitHub
-     organization and invite you with write access.
-   - Only you and the course staff can see it. Keep it private: never make it public, fork it
-     elsewhere, or share access.
+1. **Create your private repository** from this template, before the proposal deadline:
+   - On this repository's GitHub page, click **Use this template → Create a new repository**,
+     choose your own account, and set it to **Private**.
+   - In your new repository, go to **Settings → Collaborators** and add **both**
+     [@3rdAT](https://github.com/3rdAT) and [@Slash0BZ](https://github.com/Slash0BZ). The staff
+     will only read your repository, never push to it.
+   - Keep it private: never make it public or share access with other students.
+   - Your proposal is this repository's link plus a filled-in [`PLAN.md`](../PLAN.md)
+     ([GRADING.md](GRADING.md#proposal-2-points)).
 2. **To receive fixes to this template** (rules engine, tools, docs), add it as a second remote
    once, then pull from it when fixes are announced:
    ```bash

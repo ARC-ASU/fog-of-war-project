@@ -47,8 +47,8 @@ in `submission/` (`agent.py`, `features.py`, `model.py`) is committed as is.
 
 ## 6. Compute used in total
 
-About 1 CPU core-hour for data and 0.4 CPU-hours for training. The replication budget is
-8 GPU-hours and 100 CPU core-hours.
+About 1 CPU core-hour for data and 0.4 CPU-hours for training. The whole pipeline must run in
+hours, not days.
 
 ## 7. Known sources of variation
 
